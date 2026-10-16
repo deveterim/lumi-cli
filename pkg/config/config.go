@@ -39,22 +39,22 @@ func Load() (*Config, error) {
 		}
 	}
 
-	// Environment variable overrides (Lumi primary, Mailifica fallback)
+	// Environment variable overrides (Lumi primary, Lumi fallback)
 	if envKey := os.Getenv("LUMI_API_KEY"); envKey != "" {
 		cfg.APIKey = envKey
-	} else if envKey := os.Getenv("MAILIFICA_API_KEY"); envKey != "" {
+	} else if envKey := os.Getenv("LUMI_API_KEY"); envKey != "" {
 		cfg.APIKey = envKey
 	}
 
 	if envURL := os.Getenv("LUMI_BASE_URL"); envURL != "" {
 		cfg.BaseURL = strings.TrimRight(envURL, "/")
-	} else if envURL := os.Getenv("MAILIFICA_BASE_URL"); envURL != "" {
+	} else if envURL := os.Getenv("LUMI_BASE_URL"); envURL != "" {
 		cfg.BaseURL = strings.TrimRight(envURL, "/")
 	}
 
 	if envFrom := os.Getenv("LUMI_DEFAULT_FROM"); envFrom != "" {
 		cfg.DefaultFrom = envFrom
-	} else if envFrom := os.Getenv("MAILIFICA_DEFAULT_FROM"); envFrom != "" {
+	} else if envFrom := os.Getenv("LUMI_DEFAULT_FROM"); envFrom != "" {
 		cfg.DefaultFrom = envFrom
 	}
 

@@ -12,8 +12,8 @@ func TestConfigLoadAndSave(t *testing.T) {
 	defer os.Setenv("HOME", origHome)
 
 	os.Setenv("HOME", tempDir)
-	os.Unsetenv("MAILIFICA_API_KEY")
-	os.Unsetenv("MAILIFICA_BASE_URL")
+	os.Unsetenv("LUMI_API_KEY")
+	os.Unsetenv("LUMI_BASE_URL")
 
 	cfg, err := Load()
 	if err != nil {
@@ -50,10 +50,10 @@ func TestConfigLoadAndSave(t *testing.T) {
 }
 
 func TestConfigEnvOverrides(t *testing.T) {
-	os.Setenv("MAILIFICA_API_KEY", "ma_env_key_123")
-	os.Setenv("MAILIFICA_BASE_URL", "https://custom.api.mailifica.com")
-	defer os.Unsetenv("MAILIFICA_API_KEY")
-	defer os.Unsetenv("MAILIFICA_BASE_URL")
+	os.Setenv("LUMI_API_KEY", "ma_env_key_123")
+	os.Setenv("LUMI_BASE_URL", "https://custom.api.lumi.email")
+	defer os.Unsetenv("LUMI_API_KEY")
+	defer os.Unsetenv("LUMI_BASE_URL")
 
 	cfg, err := Load()
 	if err != nil {
@@ -62,7 +62,7 @@ func TestConfigEnvOverrides(t *testing.T) {
 	if cfg.APIKey != "ma_env_key_123" {
 		t.Errorf("expected env api key, got %s", cfg.APIKey)
 	}
-	if cfg.BaseURL != "https://custom.api.mailifica.com" {
+	if cfg.BaseURL != "https://custom.api.lumi.email" {
 		t.Errorf("expected env base url, got %s", cfg.BaseURL)
 	}
 }

@@ -30,7 +30,7 @@ func Banner() {
  |_|  |_|\__,_|_|_|_|_| |_|\___\__,_|
 `
 	fmt.Println(Cyan(banner))
-	fmt.Println(Gray(" Official CLI for Mailifica Email Infrastructure Platform"))
+	fmt.Println(Gray(" Official CLI for Lumi Email Infrastructure Platform"))
 	fmt.Println()
 }
 

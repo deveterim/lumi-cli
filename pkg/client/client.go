@@ -116,7 +116,7 @@ func (c *Client) SetTimeout(t time.Duration) {
 
 func (c *Client) request(ctx context.Context, method, path string, body any, out any) error {
 	if c.apiKey == "" {
-		return errors.New("missing API Key. Run 'mailifica login' or provide --api-key / MAILIFICA_API_KEY")
+		return errors.New("missing API Key. Run 'lumi login' or provide --api-key / LUMI_API_KEY")
 	}
 
 	var reqBody io.Reader
@@ -137,7 +137,7 @@ func (c *Client) request(ctx context.Context, method, path string, body any, out
 	req.Header.Set("Authorization", "Bearer "+c.apiKey)
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Accept", "application/json")
-	req.Header.Set("User-Agent", "mailifica-cli/"+Version)
+	req.Header.Set("User-Agent", "lumi-cli/"+Version)
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {

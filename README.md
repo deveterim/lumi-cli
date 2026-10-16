@@ -1,19 +1,19 @@
-# Mailifica CLI (`mailifica`)
+# Lumi CLI (`lumi`)
 
-> Official Command-Line Interface for the **Mailifica** Transactional & Marketing Email Infrastructure Platform.
+> Official Command-Line Interface for the **Lumi** Transactional & Marketing Email Infrastructure Platform.
 
-[![Go Report Card](https://goreportcard.com/badge/github.com/mailifica/mailifica-cli)](https://goreportcard.com/report/github.com/mailifica/mailifica-cli)
+[![Go Report Card](https://goreportcard.com/badge/github.com/deveterim/lumi-cli)](https://goreportcard.com/report/github.com/deveterim/lumi-cli)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
 
 ---
 
 ## ⚡ Features
 
-- 🔑 **Quick Authentication**: Interactive login (`mailifica login`) saved to `~/.mailifica/config.json`.
+- 🔑 **Quick Authentication**: Interactive login (`lumi login`) saved to `~/.lumi/config.json`.
 - ✉️ **Send & Inspect Emails**: Send emails with HTML, text, attachments, templates, variables, tags, and scheduled delivery.
 - 🌐 **Domain & DNS Management**: Add domains, list status, inspect SPF/DKIM/DMARC records, and trigger verification.
 - 🛡️ **API Key Management**: Create and revoke workspace API keys.
-- 🪝 **Built-in Webhook Tunnel Listener**: Forward webhooks in real time to local applications (`mailifica webhooks listen --forward-to http://localhost:8000/mailifica/webhook`) with live traffic inspector.
+- 🪝 **Built-in Webhook Tunnel Listener**: Forward webhooks in real time to local applications (`lumi webhooks listen --forward-to http://localhost:8000/lumi/webhook`) with live traffic inspector.
 - 📄 **JSON Output**: Clean machine-readable output with `--json` for scripting and CI/CD pipelines.
 
 ---
@@ -23,16 +23,16 @@
 ### Via `go install`:
 
 ```bash
-go install github.com/mailifica/mailifica-cli@latest
+go install github.com/deveterim/lumi-cli@latest
 ```
 
 ### From Source:
 
 ```bash
-git clone https://github.com/mailifica/mailifica-cli.git
-cd mailifica-cli
+git clone https://github.com/deveterim/lumi-cli.git
+cd lumi-cli
 make build
-# Binary created at ./bin/mailifica
+# Binary created at ./bin/lumi
 ```
 
 ---
@@ -42,20 +42,20 @@ make build
 ### 1. Authenticate
 
 ```bash
-mailifica login
+lumi login
 ```
 
 Or configure via environment variables:
 
 ```bash
-export MAILIFICA_API_KEY="ma_live_your_api_key_here"
-export MAILIFICA_BASE_URL="https://api.mailifica.com/v1"
+export LUMI_API_KEY="ma_live_your_api_key_here"
+export LUMI_BASE_URL="https://api.lumi.email/v1"
 ```
 
 ### 2. Verify Status
 
 ```bash
-mailifica whoami
+lumi whoami
 ```
 
 ---
@@ -66,7 +66,7 @@ mailifica whoami
 
 ```bash
 # Send a plain text or HTML email
-mailifica emails send \
+lumi emails send \
   --to user@example.com \
   --from hello@yourdomain.com \
   --subject "Welcome to our platform" \
@@ -74,14 +74,14 @@ mailifica emails send \
   --tag category=onboarding
 
 # Send email using template and variables
-mailifica emails send \
+lumi emails send \
   --to user@example.com \
   --from hello@yourdomain.com \
   --template tmpl_welcome_01 \
   --variables '{"name":"Alex","plan":"Pro"}'
 
 # Send with attachment
-mailifica emails send \
+lumi emails send \
   --to user@example.com \
   --from billing@yourdomain.com \
   --subject "Monthly Invoice" \
@@ -89,10 +89,10 @@ mailifica emails send \
   --attach ./invoice.pdf
 
 # Get email delivery details
-mailifica emails get email_abc12345
+lumi emails get email_abc12345
 
 # List recently sent emails
-mailifica emails list
+lumi emails list
 ```
 
 ---
@@ -101,19 +101,19 @@ mailifica emails list
 
 ```bash
 # List all sending domains
-mailifica domains list
+lumi domains list
 
 # Add a new domain
-mailifica domains add notifications.yourcompany.com
+lumi domains add notifications.yourcompany.com
 
 # Get DNS verification records (SPF, DKIM, DMARC, MX)
-mailifica domains get dom_abc12345
+lumi domains get dom_abc12345
 
 # Trigger DNS verification check
-mailifica domains verify dom_abc12345
+lumi domains verify dom_abc12345
 
 # Delete a domain
-mailifica domains delete dom_abc12345
+lumi domains delete dom_abc12345
 ```
 
 ---
@@ -122,13 +122,13 @@ mailifica domains delete dom_abc12345
 
 ```bash
 # List workspace API keys
-mailifica api-keys list
+lumi api-keys list
 
 # Create a new API key
-mailifica api-keys create --name "Production Server" --permission full_access
+lumi api-keys create --name "Production Server" --permission full_access
 
 # Revoke an API key
-mailifica api-keys revoke key_12345
+lumi api-keys revoke key_12345
 ```
 
 ---
@@ -137,20 +137,20 @@ mailifica api-keys revoke key_12345
 
 ```bash
 # List available email templates
-mailifica templates list
+lumi templates list
 
 # View template content
-mailifica templates get tmpl_welcome_01
+lumi templates get tmpl_welcome_01
 ```
 
 ---
 
 ### Local Webhook Tunnel Listener
 
-Forward incoming Mailifica webhooks directly to your local development backend:
+Forward incoming Lumi webhooks directly to your local development backend:
 
 ```bash
-mailifica webhooks listen --forward-to http://localhost:8000/mailifica/webhook
+lumi webhooks listen --forward-to http://localhost:8000/lumi/webhook
 ```
 
 Sample output:
@@ -164,11 +164,11 @@ Sample output:
 
 ● Webhook listener ready!
   Listening on: http://localhost:4000
-  Forwarding to: http://localhost:8000/mailifica/webhook
+  Forwarding to: http://localhost:8000/lumi/webhook
 
 14:22:01 ➔ WEBHOOK RECEIVED email.delivered
   Event ID: evt_64fae109
-  Forwarded: [200 OK] ➔ http://localhost:8000/mailifica/webhook (18ms)
+  Forwarded: [200 OK] ➔ http://localhost:8000/lumi/webhook (18ms)
 ```
 
 ---
