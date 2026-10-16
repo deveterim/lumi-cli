@@ -1,0 +1,86 @@
+name: Release CLI
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    name: Build and Release Binaries
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - goos: linux
+            goarch: amd64
+            output_name: mailifica-linux-amd64
+          - goos: linux
+            goarch: arm64
+            output_name: mailifica-linux-arm64
+          - goos: darwin
+            goarch: amd64
+            output_name: mailifica-darwin-amd64
+          - goos: darwin
+            goarch: arm64
+            output_name: mailifica-darwin-arm64
+          - goos: windows
+            goarch: amd64
+            output_name: mailifica-windows-amd64.exe
+          - goos: windows
+            goarch: arm64
+            output_name: mailifica-windows-arm64.exe
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: '1.21'
+          check-latest: true
+
+      - name: Run tests
+        run: go test -v ./...
+
+      - name: Build binary
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: 0
+        run: |
+          go build -ldflags="-s -w -X github.com/mailifica/mailifica-cli/cmd.Version=${{ github.ref_name }}" -o dist/${{ matrix.output_name }} main.go
+
+      - name: Upload binary artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.output_name }}
+          path: dist/${{ matrix.output_name }}
+
+  publish-release:
+    name: Create GitHub Release
+    needs: build-and-release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download all built binaries
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts
+          merge-multiple: true
+
+      - name: Create Release and Upload Assets
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release-artifacts/*
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
