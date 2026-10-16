@@ -28,7 +28,7 @@ var loginCmd = &cobra.Command{
 
 		apiKey := loginKey
 		if apiKey == "" {
-			fmt.Printf("%s: ", ui.Bold("Enter your Lumi API Key (e.g. ma_live_...)"))
+			fmt.Printf("%s: ", ui.Bold("Enter your Lumi API Key (e.g. lu_live_...)"))
 			input, _ := reader.ReadString('\n')
 			apiKey = strings.TrimSpace(input)
 		}

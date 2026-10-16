@@ -48,7 +48,7 @@ lumi login
 Or configure via environment variables:
 
 ```bash
-export LUMI_API_KEY="ma_live_your_api_key_here"
+export LUMI_API_KEY="lu_live_your_api_key_here"
 export LUMI_BASE_URL="https://api.lumi.email/v1"
 ```
 

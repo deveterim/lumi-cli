@@ -24,7 +24,7 @@ func TestConfigLoadAndSave(t *testing.T) {
 		t.Errorf("expected default base url %s, got %s", DefaultBaseURL, cfg.BaseURL)
 	}
 
-	cfg.APIKey = "ma_test_secret_key"
+	cfg.APIKey = "lu_test_secret_key"
 	cfg.BaseURL = "http://localhost:8080/v1"
 	if err := cfg.Save(); err != nil {
 		t.Fatalf("failed to save config: %v", err)
@@ -41,8 +41,8 @@ func TestConfigLoadAndSave(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to reload config: %v", err)
 	}
-	if reloaded.APIKey != "ma_test_secret_key" {
-		t.Errorf("expected APIKey ma_test_secret_key, got %s", reloaded.APIKey)
+	if reloaded.APIKey != "lu_test_secret_key" {
+		t.Errorf("expected APIKey lu_test_secret_key, got %s", reloaded.APIKey)
 	}
 	if reloaded.BaseURL != "http://localhost:8080/v1" {
 		t.Errorf("expected BaseURL http://localhost:8080/v1, got %s", reloaded.BaseURL)
@@ -50,7 +50,7 @@ func TestConfigLoadAndSave(t *testing.T) {
 }
 
 func TestConfigEnvOverrides(t *testing.T) {
-	os.Setenv("LUMI_API_KEY", "ma_env_key_123")
+	os.Setenv("LUMI_API_KEY", "lu_env_key_123")
 	os.Setenv("LUMI_BASE_URL", "https://custom.api.lumi.email")
 	defer os.Unsetenv("LUMI_API_KEY")
 	defer os.Unsetenv("LUMI_BASE_URL")
@@ -59,7 +59,7 @@ func TestConfigEnvOverrides(t *testing.T) {
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
-	if cfg.APIKey != "ma_env_key_123" {
+	if cfg.APIKey != "lu_env_key_123" {
 		t.Errorf("expected env api key, got %s", cfg.APIKey)
 	}
 	if cfg.BaseURL != "https://custom.api.lumi.email" {
