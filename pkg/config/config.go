@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	DefaultBaseURL = "https://api.lumi.email/v1"
+	DefaultBaseURL = "https://api.lumi.ao"
 	ConfigDirName  = ".lumi"
 	ConfigFileName = "config.json"
 )

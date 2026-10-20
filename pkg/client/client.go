@@ -54,15 +54,37 @@ type SendEmailResponse struct {
 }
 
 type Email struct {
-	ID        string   `json:"id"`
-	From      string   `json:"from"`
-	To        []string `json:"to"`
-	Subject   string   `json:"subject"`
-	Html      string   `json:"html,omitempty"`
-	Text      string   `json:"text,omitempty"`
-	Status    string   `json:"status"`
-	CreatedAt string   `json:"created_at"`
-	LastEvent string   `json:"last_event,omitempty"`
+	ID        string `json:"id"`
+	From      string `json:"from"`
+	To        any    `json:"to"`
+	Subject   string `json:"subject"`
+	Html      string `json:"html,omitempty"`
+	Text      string `json:"text,omitempty"`
+	Status    string `json:"status"`
+	CreatedAt string `json:"createdAt"`
+	LastEvent string `json:"last_event,omitempty"`
+}
+
+func (e *Email) GetToRecipients() []string {
+	if e.To == nil {
+		return nil
+	}
+	switch v := e.To.(type) {
+	case string:
+		return []string{v}
+	case []string:
+		return v
+	case []any:
+		var res []string
+		for _, item := range v {
+			if s, ok := item.(string); ok {
+				res = append(res, s)
+			}
+		}
+		return res
+	default:
+		return []string{fmt.Sprint(v)}
+	}
 }
 
 type DomainRecord struct {
@@ -180,7 +202,18 @@ func (c *Client) SendEmail(ctx context.Context, params *SendEmailParams) (*SendE
 		ID     string            `json:"id"`
 		Status string            `json:"status"`
 	}
-	if err := c.request(ctx, "POST", "/emails", params, &res); err != nil {
+	sendPath := "/api/v1/send"
+	if strings.HasSuffix(c.baseURL, "/v1") {
+		sendPath = "/send"
+	}
+	err := c.request(ctx, "POST", sendPath, params, &res)
+	if err != nil {
+		// Fallback to /emails for resend compatibility
+		if err2 := c.request(ctx, "POST", "/emails", params, &res); err2 == nil {
+			err = nil
+		}
+	}
+	if err != nil {
 		return nil, err
 	}
 	if res.Data.ID != "" {
@@ -192,11 +225,25 @@ func (c *Client) SendEmail(ctx context.Context, params *SendEmailParams) (*SendE
 func (c *Client) GetEmail(ctx context.Context, id string) (*Email, error) {
 	var res struct {
 		Data Email `json:"data"`
+		Email
 	}
-	if err := c.request(ctx, "GET", "/emails/"+id, nil, &res); err != nil {
+	getPath := "/api/v1/send/" + id
+	if strings.HasSuffix(c.baseURL, "/v1") {
+		getPath = "/send/" + id
+	}
+	err := c.request(ctx, "GET", getPath, nil, &res)
+	if err != nil {
+		if err2 := c.request(ctx, "GET", "/emails/"+id, nil, &res); err2 == nil {
+			err = nil
+		}
+	}
+	if err != nil {
 		return nil, err
 	}
-	return &res.Data, nil
+	if res.Data.ID != "" {
+		return &res.Data, nil
+	}
+	return &res.Email, nil
 }
 
 func (c *Client) ListEmails(ctx context.Context) ([]Email, error) {

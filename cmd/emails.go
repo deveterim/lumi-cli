@@ -171,7 +171,7 @@ var emailsGetCmd = &cobra.Command{
 		ui.RenderKeyValue("Status", ui.StatusBadge(email.Status))
 		ui.RenderKeyValue("Subject", email.Subject)
 		ui.RenderKeyValue("From", email.From)
-		ui.RenderKeyValue("To", strings.Join(email.To, ", "))
+		ui.RenderKeyValue("To", strings.Join(email.GetToRecipients(), ", "))
 		ui.RenderKeyValue("Created At", email.CreatedAt)
 		if email.LastEvent != "" {
 			ui.RenderKeyValue("Last Event", email.LastEvent)
@@ -207,7 +207,7 @@ var emailsListCmd = &cobra.Command{
 		fmt.Println(strings.Repeat("─", 80))
 
 		for _, em := range emails {
-			recip := strings.Join(em.To, ", ")
+			recip := strings.Join(em.GetToRecipients(), ", ")
 			if len(recip) > 26 {
 				recip = recip[:23] + "..."
 			}
