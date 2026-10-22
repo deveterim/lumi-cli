@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/eadafonso/lumi/lumi-cli/pkg/client"
-	"github.com/eadafonso/lumi/lumi-cli/pkg/config"
-	"github.com/eadafonso/lumi/lumi-cli/pkg/ui"
+	"github.com/deveterim/lumi-cli/pkg/client"
+	"github.com/deveterim/lumi-cli/pkg/config"
+	"github.com/deveterim/lumi-cli/pkg/ui"
 	"github.com/spf13/cobra"
 )
 

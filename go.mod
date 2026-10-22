@@ -1,4 +1,4 @@
-module github.com/eadafonso/lumi/lumi-cli
+module github.com/deveterim/lumi-cli
 
 go 1.21
 

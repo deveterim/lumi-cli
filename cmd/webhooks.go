@@ -6,8 +6,8 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/eadafonso/lumi/lumi-cli/pkg/tunnel"
-	"github.com/eadafonso/lumi/lumi-cli/pkg/ui"
+	"github.com/deveterim/lumi-cli/pkg/tunnel"
+	"github.com/deveterim/lumi-cli/pkg/ui"
 	"github.com/spf13/cobra"
 )
 

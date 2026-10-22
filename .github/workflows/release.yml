@@ -17,22 +17,22 @@ jobs:
         include:
           - goos: linux
             goarch: amd64
-            output_name: mailifica-linux-amd64
+            output_name: lumi-linux-amd64
           - goos: linux
             goarch: arm64
-            output_name: mailifica-linux-arm64
+            output_name: lumi-linux-arm64
           - goos: darwin
             goarch: amd64
-            output_name: mailifica-darwin-amd64
+            output_name: lumi-darwin-amd64
           - goos: darwin
             goarch: arm64
-            output_name: mailifica-darwin-arm64
+            output_name: lumi-darwin-arm64
           - goos: windows
             goarch: amd64
-            output_name: mailifica-windows-amd64.exe
+            output_name: lumi-windows-amd64.exe
           - goos: windows
             goarch: arm64
-            output_name: mailifica-windows-arm64.exe
+            output_name: lumi-windows-arm64.exe
 
     steps:
       - name: Checkout repository
@@ -53,7 +53,7 @@ jobs:
           GOARCH: ${{ matrix.goarch }}
           CGO_ENABLED: 0
         run: |
-          go build -ldflags="-s -w -X github.com/mailifica/mailifica-cli/cmd.Version=${{ github.ref_name }}" -o dist/${{ matrix.output_name }} main.go
+          go build -ldflags="-s -w -X github.com/deveterim/lumi-cli/cmd.Version=${{ github.ref_name }}" -o dist/${{ matrix.output_name }} main.go
 
       - name: Upload binary artifact
         uses: actions/upload-artifact@v4

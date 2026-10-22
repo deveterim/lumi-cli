@@ -9,7 +9,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/eadafonso/lumi/lumi-cli/pkg/ui"
+	"github.com/deveterim/lumi-cli/pkg/ui"
 )
 
 type ListenerOptions struct {

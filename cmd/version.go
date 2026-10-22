@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"runtime"
 
-	"github.com/eadafonso/lumi/lumi-cli/pkg/client"
-	"github.com/eadafonso/lumi/lumi-cli/pkg/ui"
+	"github.com/deveterim/lumi-cli/pkg/client"
+	"github.com/deveterim/lumi-cli/pkg/ui"
 	"github.com/spf13/cobra"
 )
 

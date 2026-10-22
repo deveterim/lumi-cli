@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/eadafonso/lumi/lumi-cli/pkg/config"
-	"github.com/eadafonso/lumi/lumi-cli/pkg/ui"
+	"github.com/deveterim/lumi-cli/pkg/config"
+	"github.com/deveterim/lumi-cli/pkg/ui"
 	"github.com/spf13/cobra"
 )
 
